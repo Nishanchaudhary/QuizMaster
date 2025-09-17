@@ -1,7 +1,7 @@
 ## QuizMaster - Interactive Quiz Platform
-https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green
-https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue
-https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
 QuizMaster is a comprehensive quiz application built with Django that offers various quiz formats, progress tracking, and personalized learning recommendations.
 
