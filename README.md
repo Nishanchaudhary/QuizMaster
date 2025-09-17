@@ -24,7 +24,13 @@ QuizMaster is a comprehensive quiz application built with Django that offers var
 - Add new questions to the database
 - Monitor overall platform statistics
 - Manage user accounts and content
-# Personalization:
+## Personalization:
 - ML-Powered Recommendations: Get personalized study recommendations based on performance
 - Weak Category Identification: System identifies areas needing improvement
 - Effort Recommendations: AI-driven suggestions for optimal study patterns
+
+# QuizMaster Video
+<video width="100%" controls>
+  <source src="quizmaster.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
