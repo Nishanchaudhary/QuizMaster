@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-10 animate-fade-in">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl shadow-lg mb-6">
+            <i class="fas fa-cogs text-3xl text-white"></i>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Create Custom Quiz</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300">Tailor your quiz experience with personalized settings</p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden animate-slide-up">
+        <!-- Form Header -->
+        <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5">
+            <div class="flex items-center">
+                <i class="fas fa-sliders-h text-white text-xl mr-3"></i>
+                <h2 class="text-white font-semibold text-lg">Quiz Configuration</h2>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-6 md:p-8">
+            <form method="post" class="space-y-8">
+                {% csrf_token %}
+                
+                <!-- Categories Section -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-tags text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Select Categories</h2>
+                    </div>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Choose one or more categories for your quiz</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                        {% for category in categories %}
+                        <label for="category-{{ category.id }}" class="flex items-center p-3 bg-white dark:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-500 cursor-pointer hover:shadow-md transition-shadow duration-200">
+                            <input id="category-{{ category.id }}" name="categories" type="checkbox" value="{{ category.id }}" 
+                                   class="h-5 w-5 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                            <span class="ml-3 text-gray-900 dark:text-white font-medium">{{ category.name }}</span>
+                        </label>
+                        {% empty %}
+                        <div class="col-span-2 text-center py-6 text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-inbox text-3xl mb-2"></i>
+                            <p>No categories available. Please add categories in the admin panel.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Difficulty Section -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-signal text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Difficulty Level</h2>
+                    </div>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Choose the difficulty level for your questions</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        {% for value, label in form.fields.difficulty.choices %}
+                        <label for="difficulty-{{ value }}" class="relative">
+                            <input id="difficulty-{{ value }}" name="difficulty" type="radio" value="{{ value }}" 
+                                   {% if value == form.difficulty.value %}checked{% endif %}
+                                   class="peer sr-only">
+                            <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer text-center transition-all duration-200 peer-checked:border-primary-500 peer-checked:bg-primary-50 dark:peer-checked:bg-primary-900/20 peer-checked:shadow-md hover:shadow-md">
+                                <div class="flex flex-col items-center">
+                                    {% if value == 'easy' %}
+                                    <i class="fas fa-seedling text-green-500 text-xl mb-2"></i>
+                                    {% elif value == 'medium' %}
+                                    <i class="fas fa-mountain text-yellow-500 text-xl mb-2"></i>
+                                    {% elif value == 'hard' %}
+                                    <i class="fas fa-fire text-red-500 text-xl mb-2"></i>
+                                    {% else %}
+                                    <i class="fas fa-globe text-primary-500 text-xl mb-2"></i>
+                                    {% endif %}
+                                    <span class="font-medium text-gray-900 dark:text-white">{{ label }}</span>
+                                </div>
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Question Count Section -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-list-ol text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Number of Questions</h2>
+                    </div>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Select how many questions you want in your quiz (5-100)</p>
+                    
+                    <div class="relative">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-minus-circle text-gray-400 cursor-pointer hover:text-primary-600" onclick="decrementQuestions()"></i>
+                            {{ form.question_count }}
+                            <i class="fas fa-plus-circle text-gray-400 cursor-pointer hover:text-primary-600" onclick="incrementQuestions()"></i>
+                        </div>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-question-circle text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-info-circle mr-2 text-primary-500"></i>
+                            <span>Recommended: 20-30 questions for a balanced experience</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <a href="{% url 'index' %}" class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Home
+                    </a>
+                    <button type="submit" class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-play-circle mr-2"></i>
+                        Start Custom Quiz
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="mt-8 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-6 animate-fade-in">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <i class="fas fa-lightbulb text-amber-500 dark:text-amber-400 text-2xl"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="font-semibold text-amber-800 dark:text-amber-300 mb-2">Pro Tips</h3>
+                <ul class="text-amber-700 dark:text-amber-400 text-sm space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle mr-2 text-amber-500"></i>
+                        <span>Mix categories for a well-rounded knowledge test</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle mr-2 text-amber-500"></i>
+                        <span>Start with medium difficulty if you're unsure</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle mr-2 text-amber-500"></i>
+                        <span>Choose 20-30 questions for optimal engagement</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle mr-2 text-amber-500"></i>
+                        <span>You can always create another quiz with different settings</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom form styling */
+    input[type="number"] {
+        width: 100%;
+        max-width: 120px;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 0.75rem;
+        text-align: center;
+        font-size: 1.125rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    
+    .dark input[type="number"] {
+        background-color: #374151;
+        border-color: #4b5563;
+        color: white;
+    }
+    
+    input[type="number"]:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #3b82f6;
+        border-color: #3b82f6;
+    }
+    
+    .dark input[type="number"]:focus {
+        ring-color: #60a5fa;
+        border-color: #60a5fa;
+    }
+    
+    /* Custom checkbox styling */
+    input[type="checkbox"] {
+        border-radius: 0.375rem;
+    }
+    
+    /* Animation classes */
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+    
+    .animate-slide-up {
+        animation: slideUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+        from { 
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    // Question count increment/decrement functions
+    function incrementQuestions() {
+        const input = document.querySelector('input[name="question_count"]');
+        let value = parseInt(input.value) || 5;
+        if (value < 100) {
+            input.value = value + 1;
+        }
+    }
+    
+    function decrementQuestions() {
+        const input = document.querySelector('input[name="question_count"]');
+        let value = parseInt(input.value) || 5;
+        if (value > 5) {
+            input.value = value - 1;
+        }
+    }
+    
+    // Add event listener for input validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const questionInput = document.querySelector('input[name="question_count"]');
+        
+        questionInput.addEventListener('input', function() {
+            let value = parseInt(this.value);
+            if (isNaN(value)) {
+                this.value = 5;
+            } else if (value < 5) {
+                this.value = 5;
+            } else if (value > 100) {
+                this.value = 100;
+            }
+        });
+        
+        questionInput.addEventListener('blur', function() {
+            if (this.value === '') {
+                this.value = 20;
+            }
+        });
+    });
+</script>
+{% endblock %}

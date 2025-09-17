@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+    }
+    
+    .quiz-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid #3b82f6;
+        background: white;
+        color: #1f2937;
+    }
+    
+    .dark .quiz-card {
+        border-left-color: #60a5fa;
+        background: #1e293b;
+        color: #f1f5f9;
+    }
+    
+    .quiz-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .dark .quiz-card:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .option-item {
+        transition: all 0.2s ease;
+    }
+    
+    .option-item:hover {
+        background-color: #f1f5f9;
+        transform: translateX(5px);
+    }
+    
+    .dark .option-item:hover {
+        background-color: #475569;
+    }
+    
+    input[type="radio"]:checked + label {
+        background-color: #dbeafe;
+        border-color: #3b82f6;
+    }
+    
+    .dark input[type="radio"]:checked + label {
+        background-color: #1e40af;
+        border-color: #60a5fa;
+    }
+    
+    .progress-bar {
+        transition: width 0.5s ease-in-out;
+        background-color: #3b82f6;
+    }
+    
+    .dark .progress-bar {
+        background-color: #60a5fa;
+    }
+    
+    .progress-container {
+        background-color: white;
+    }
+    
+    .dark .progress-container {
+        background-color: #334155;
+    }
+    
+    .progress-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    
+    .progress-stat {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.9rem;
+        background: #f8fafc;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+    
+    .dark .progress-stat {
+        background: #334155;
+    }
+    
+    .submit-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    @media (min-width: 640px) {
+        .submit-section {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+</style>
+
+<div class="py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
+                <i class="fas fa-brain text-3xl text-blue-600 dark:text-blue-300"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-blue-800 dark:text-blue-200 mb-3">Quiz Challenge</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">Test your knowledge with these <span id="total-questions">100</span> questions</p>
+            
+            <!-- Progress indicator -->
+            <div class="progress-container rounded-full shadow-inner h-6 mx-auto max-w-md mb-4">
+                <div class="progress-bar h-full rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <!-- Progress stats -->
+            <div class="progress-info justify-center mb-6">
+                <div class="progress-stat text-green-600 dark:text-green-400">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="answered-count">0</span> answered
+                </div>
+                <div class="progress-stat text-gray-600 dark:text-gray-400">
+                    <i class="fas fa-question-circle"></i>
+                    <span id="remaining-count">100</span> remaining
+                </div>
+                <div class="progress-stat text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-percentage"></i>
+                    <span id="progress-percent">0</span>% complete
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Form -->
+        <form method="post" id="quiz-form" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8">
+            {% csrf_token %}
+            <input type="hidden" name="start_time" value="{{ start_time }}">
+            
+            <!-- Questions -->
+            {% for question in questions %}
+            <div class="quiz-card rounded-xl p-6 mb-8 shadow-md">
+                <div class="flex items-start mb-4">
+                    <span class="flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full font-bold mr-3 mt-1">
+                        {{ forloop.counter }}
+                    </span>
+                    <h3 class="text-xl font-semibold">{{ question.question_text }}</h3>
+                </div>
+                
+                <div class="space-y-3 ml-11">
+                    <div class="option-item">
+                        <input type="radio" id="q{{ question.id }}_1" name="question_{{ question.id }}" value="1" class="hidden">
+                        <label for="q{{ question.id }}_1" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all bg-gray-50 dark:bg-gray-700">
+                            <span class="flex items-center justify-center w-6 h-6 bg-gray-100 dark:bg-gray-600 rounded-full mr-3">
+                                <span class="text-sm font-bold">A</span>
+                            </span>
+                            <span class="text-lg">{{ question.option1 }}</span>
+                        </label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <input type="radio" id="q{{ question.id }}_2" name="question_{{ question.id }}" value="2" class="hidden">
+                        <label for="q{{ question.id }}_2" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all bg-gray-50 dark:bg-gray-700">
+                            <span class="flex items-center justify-center w-6 h-6 bg-gray-100 dark:bg-gray-600 rounded-full mr-3">
+                                <span class="text-sm font-bold">B</span>
+                            </span>
+                            <span class="text-lg">{{ question.option2 }}</span>
+                        </label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <input type="radio" id="q{{ question.id }}_3" name="question_{{ question.id }}" value="3" class="hidden">
+                        <label for="q{{ question.id }}_3" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all bg-gray-50 dark:bg-gray-700">
+                            <span class="flex items-center justify-center w-6 h-6 bg-gray-100 dark:bg-gray-600 rounded-full mr-3">
+                                <span class="text-sm font-bold">C</span>
+                            </span>
+                            <span class="text-lg">{{ question.option3 }}</span>
+                        </label>
+                    </div>
+                    
+                    <div class="option-item">
+                        <input type="radio" id="q{{ question.id }}_4" name="question_{{ question.id }}" value="4" class="hidden">
+                        <label for="q{{ question.id }}_4" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all bg-gray-50 dark:bg-gray-700">
+                            <span class="flex items-center justify-center w-6 h-6 bg-gray-100 dark:bg-gray-600 rounded-full mr-3">
+                                <span class="text-sm font-bold">D</span>
+                            </span>
+                            <span class="text-lg">{{ question.option4 }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <!-- Fixed Submit Button with Progress Info -->
+            <div class="sticky bottom-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mt-8 border border-blue-100 dark:border-gray-700">
+                <div class="submit-section">
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 font-medium">
+                            <i class="far fa-clock mr-2"></i>
+                            <span id="timer">00:00</span>
+                        </div>
+                        
+                        <div class="progress-info">
+                            <div class="progress-stat text-green-600 dark:text-green-400 text-sm">
+                                <i class="fas fa-check"></i>
+                                <span id="submit-answered">0</span>/<span id="submit-total">100</span>
+                            </div>
+                            <div class="progress-stat text-blue-600 dark:text-blue-400 text-sm">
+                                <i class="fas fa-chart-pie"></i>
+                                <span id="submit-percent">0</span>%
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg mt-4 sm:mt-0">
+                        <i class="fas fa-paper-plane mr-2"></i> Submit Quiz
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Info Footer -->
+        <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
+            <p><i class="fas fa-exclamation-circle mr-2"></i>Ensure you've answered all questions before submitting</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize variables
+            const totalQuestions = document.querySelectorAll('.quiz-card').length;
+            document.getElementById('total-questions').textContent = totalQuestions;
+            document.getElementById('remaining-count').textContent = totalQuestions;
+            document.getElementById('submit-total').textContent = totalQuestions;
+            
+            // Timer functionality
+            let startTime = Date.now();
+            const timerElement = document.getElementById('timer');
+            
+            // Update timer every second
+            const timerInterval = setInterval(function() {
+                const elapsedTime = Date.now() - startTime;
+                const seconds = Math.floor(elapsedTime / 1000);
+                const minutes = Math.floor(seconds / 60);
+                
+                // Format time as MM:SS
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(seconds % 60).padStart(2, '0');
+                
+                timerElement.textContent = `${formattedMinutes}:${formattedSeconds}`;
+            }, 1000);
+            
+            // Progress tracking functionality
+            const progressBar = document.querySelector('.progress-bar');
+            const form = document.getElementById('quiz-form');
+            
+            // Function to update progress
+            function updateProgress() {
+                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                const progress = (answeredQuestions / totalQuestions) * 100;
+                const remainingQuestions = totalQuestions - answeredQuestions;
+                
+                // Update progress bar
+                progressBar.style.width = `${progress}%`;
+                
+                // Update progress stats
+                document.getElementById('answered-count').textContent = answeredQuestions;
+                document.getElementById('remaining-count').textContent = remainingQuestions;
+                document.getElementById('progress-percent').textContent = Math.round(progress);
+                
+                // Update submit section stats
+                document.getElementById('submit-answered').textContent = answeredQuestions;
+                document.getElementById('submit-percent').textContent = Math.round(progress);
+            }
+            
+            // Set up event listeners for progress tracking
+            if (progressBar && totalQuestions > 0) {
+                // Initial update
+                updateProgress();
+                
+                // Update on change
+                form.addEventListener('change', updateProgress);
+                
+                // Also update on click (for better responsiveness)
+                form.addEventListener('click', function(e) {
+                    if (e.target.type === 'radio' || e.target.closest('label')) {
+                        setTimeout(updateProgress, 10);
+                    }
+                });
+            }
+            
+            // Form submission confirmation
+            form.addEventListener('submit', function(e) {
+                // Clear the timer interval when form is submitted
+                clearInterval(timerInterval);
+                
+                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                if (answeredQuestions < totalQuestions) {
+                    if (!confirm(`You have answered ${answeredQuestions} out of ${totalQuestions} questions. Are you sure you want to submit?`)) {
+                        e.preventDefault();
+                        // Restart the timer if submission was cancelled
+                        startTime = Date.now() - (parseInt(timerElement.textContent.split(':')[0]) * 60000 + 
+                                                 parseInt(timerElement.textContent.split(':')[1]) * 1000);
+                    }
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock %}

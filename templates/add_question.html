@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-8 animate-fade-in">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-full mb-4">
+            <i class="fas fa-plus-circle text-2xl text-primary-600 dark:text-primary-400"></i>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">Add New Question</h1>
+        <p class="text-gray-600 dark:text-gray-300">Create engaging questions for the QuizMaster platform</p>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="mb-6 animate-slide-up">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl border-l-4 {% if message.tags == 'success' %}bg-green-50 border-green-400 text-green-700 dark:bg-green-900/20 dark:border-green-600 dark:text-green-300{% else %}bg-red-50 border-red-400 text-red-700 dark:bg-red-900/20 dark:border-red-600 dark:text-red-300{% endif %}">
+            <div class="flex items-center">
+                <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} mr-3"></i>
+                <span>{{ message }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Form Container -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden animate-slide-up">
+        <!-- Form Header -->
+        <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+            <div class="flex items-center">
+                <i class="fas fa-pencil-alt text-white text-lg mr-3"></i>
+                <h2 class="text-white font-semibold">Question Details</h2>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-6 md:p-8">
+            <form method="post" novalidate class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 dark:text-red-400 mr-3"></i>
+                        <div>
+                            <h3 class="font-semibold text-red-800 dark:text-red-300">Please correct the following errors:</h3>
+                            <ul class="text-red-700 dark:text-red-400 text-sm mt-1">
+                                {{ form.non_field_errors }}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Question Text -->
+                <div class="space-y-2">
+                    <label for="{{ form.question_text.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                        <i class="fas fa-question-circle text-primary-600 dark:text-primary-400 mr-2"></i>
+                        Question Text
+                    </label>
+                    {{ form.question_text }}
+                    {% if form.question_text.errors %}
+                    <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        {{ form.question_text.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Options Grid -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Option 1 -->
+                    <div class="space-y-2">
+                        <label for="{{ form.option1.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-circle-a text-blue-600 dark:text-blue-400 mr-2"></i>
+                            Option 1
+                        </label>
+                        <div class="relative">
+                            {{ form.option1 }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-pen text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.option1.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.option1.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Option 2 -->
+                    <div class="space-y-2">
+                        <label for="{{ form.option2.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-circle-b text-green-600 dark:text-green-400 mr-2"></i>
+                            Option 2
+                        </label>
+                        <div class="relative">
+                            {{ form.option2 }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-pen text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.option2.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.option2.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Option 3 -->
+                    <div class="space-y-2">
+                        <label for="{{ form.option3.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-circle-c text-yellow-600 dark:text-yellow-400 mr-2"></i>
+                            Option 3
+                        </label>
+                        <div class="relative">
+                            {{ form.option3 }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-pen text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.option3.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.option3.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Option 4 -->
+                    <div class="space-y-2">
+                        <label for="{{ form.option4.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-circle-d text-red-600 dark:text-red-400 mr-2"></i>
+                            Option 4
+                        </label>
+                        <div class="relative">
+                            {{ form.option4 }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-pen text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.option4.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.option4.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Settings Grid -->
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Correct Option -->
+                    <div class="space-y-2">
+                        <label for="{{ form.correct_option.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-check-circle text-green-600 dark:text-green-400 mr-2"></i>
+                            Correct Answer
+                        </label>
+                        <div class="relative">
+                            {{ form.correct_option }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.correct_option.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.correct_option.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Category -->
+                    <div class="space-y-2">
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-tag text-purple-600 dark:text-purple-400 mr-2"></i>
+                            Category
+                        </label>
+                        <div class="relative">
+                            {{ form.category }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.category.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.category.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Difficulty -->
+                    <div class="space-y-2">
+                        <label for="{{ form.difficulty.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-signal text-orange-600 dark:text-orange-400 mr-2"></i>
+                            Difficulty
+                        </label>
+                        <div class="relative">
+                            {{ form.difficulty }}
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if form.difficulty.errors %}
+                        <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ form.difficulty.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Explanation -->
+                <div class="space-y-2">
+                    <label for="{{ form.explanation.id_for_label }}" class="block text-sm font-semibold text-gray-900 dark:text-white flex items-center">
+                        <i class="fas fa-lightbulb text-amber-600 dark:text-amber-400 mr-2"></i>
+                        Explanation
+                    </label>
+                    {{ form.explanation }}
+                    {% if form.explanation.errors %}
+                    <div class="text-red-600 dark:text-red-400 text-sm flex items-center mt-1">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        {{ form.explanation.errors }}
+                    </div>
+                    {% endif %}
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Provide a clear explanation for the correct answer</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <a href="{% url 'admin_dashboard' %}" class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancel
+                    </a>
+                    <button type="submit" class="inline-flex items-center justify-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-plus-circle mr-2"></i>
+                        Add Question
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick Tips -->
+    <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-6 animate-fade-in">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <i class="fas fa-lightbulb text-blue-500 dark:text-blue-400 text-2xl"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="font-semibold text-blue-800 dark:text-blue-300 mb-2">Quick Tips</h3>
+                <ul class="text-blue-700 dark:text-blue-400 text-sm space-y-1">
+                    <li>• Keep questions clear and concise</li>
+                    <li>• Ensure all options are plausible</li>
+                    <li>• Provide detailed explanations for learning</li>
+                    <li>• Use appropriate difficulty levels</li>
+                    <li>• Categorize questions correctly for better organization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom form styling */
+    textarea, input[type="text"], select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        background-color: white;
+        transition: all 0.2s ease;
+    }
+    
+    .dark textarea, .dark input[type="text"], .dark select {
+        background-color: #374151;
+        border-color: #4b5563;
+        color: white;
+    }
+    
+    textarea:focus, input[type="text"]:focus, select:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #3b82f6;
+        border-color: #3b82f6;
+    }
+    
+    .dark textarea:focus, .dark input[type="text"]:focus, .dark select:focus {
+        ring-color: #60a5fa;
+        border-color: #60a5fa;
+    }
+    
+    /* Custom icons for options */
+    .fa-circle-a:before { content: "A"; font-family: inherit; font-weight: 600; }
+    .fa-circle-b:before { content: "B"; font-family: inherit; font-weight: 600; }
+    .fa-circle-c:before { content: "C"; font-family: inherit; font-weight: 600; }
+    .fa-circle-d:before { content: "D"; font-family: inherit; font-weight: 600; }
+</style>
+
+<script>
+    // Add character counters for text fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const textFields = document.querySelectorAll('textarea, input[type="text"]');
+        
+        textFields.forEach(field => {
+            // Create counter element
+            const counter = document.createElement('div');
+            counter.className = 'text-xs text-gray-500 dark:text-gray-400 mt-1 text-right';
+            counter.textContent = `0/${field.getAttribute('maxlength') || '∞'} characters`;
+            
+            // Insert after field
+            field.parentNode.appendChild(counter);
+            
+            // Update counter on input
+            field.addEventListener('input', function() {
+                const maxLength = this.getAttribute('maxlength');
+                const currentLength = this.value.length;
+                
+                if (maxLength) {
+                    counter.textContent = `${currentLength}/${maxLength} characters`;
+                    
+                    if (currentLength > maxLength * 0.9) {
+                        counter.classList.add('text-red-500');
+                    } else {
+                        counter.classList.remove('text-red-500');
+                    }
+                } else {
+                    counter.textContent = `${currentLength} characters`;
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

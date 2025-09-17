@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Result Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
+            {% if is_correct %}
+            <!-- Correct Answer -->
+            <div class="bg-gradient-to-r from-green-400 to-emerald-600 p-1">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 text-center">
+                    <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-check-circle text-5xl text-white"></i>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Excellent!</h1>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">You answered today's question correctly.</p>
+                    <div class="inline-flex items-center bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-4 py-2 rounded-full">
+                        <i class="fas fa-star mr-2"></i>
+                        <span>+5 points added to your streak</span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Incorrect Answer -->
+            <div class="bg-gradient-to-r from-red-400 to-rose-600 p-1">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 text-center">
+                    <div class="w-24 h-24 bg-gradient-to-r from-red-400 to-rose-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-times-circle text-5xl text-white"></i>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Incorrect Answer</h1>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-4">The correct answer was option {{ correct_option }}.</p>
+                    <div class="inline-flex items-center bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-4 py-2 rounded-full">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        <span>Don't worry! Try again tomorrow</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Explanation Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mt-8">
+            <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-lightbulb text-blue-600 dark:text-blue-300 text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Explanation</h2>
+            </div>
+            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-100 dark:border-blue-800">
+                <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+                    {{ explanation|default:"No explanation provided for this question." }}
+                </p>
+            </div>
+        </div>
+        
+        <!-- Stats Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mt-8">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-white flex items-center">
+                <i class="fas fa-chart-line text-indigo-500 mr-2"></i> Your Progress
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-center">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-fire text-green-600 dark:text-green-300"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Current Streak</p>
+                    <p class="text-2xl font-bold text-gray-800 dark:text-white">3 days</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-center">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-check-circle text-blue-600 dark:text-blue-300"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Total Correct</p>
+                    <p class="text-2xl font-bold text-gray-800 dark:text-white">12</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+            <a href="{% url 'daily_question' %}" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg">
+                <i class="fas fa-calendar-day mr-2"></i> Tomorrow's Question
+            </a>
+            <a href="{% url 'quiz' %}" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg">
+                <i class="fas fa-play mr-2"></i> Take a Full Quiz
+            </a>
+        </div>
+        
+        <!-- Additional Options -->
+        <div class="text-center mt-6">
+            <a href="{% url 'progress' %}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium inline-flex items-center">
+                <i class="fas fa-chart-line mr-2"></i>
+                View Detailed Statistics
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounceIn {
+        0% { transform: scale(0.8); opacity: 0; }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .animate-bounce-in {
+        animation: bounceIn 0.8s ease-out forwards;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate elements on page load
+        const cards = document.querySelectorAll('.bg-white');
+        cards.forEach((card, index) => {
+            card.classList.add('animate-fade-in');
+            card.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // Animate the result icon
+        const resultIcon = document.querySelector('.fa-check-circle, .fa-times-circle');
+        if (resultIcon) {
+            resultIcon.parentElement.classList.add('animate-bounce-in');
+        }
+    });
+</script>
+{% endblock %}

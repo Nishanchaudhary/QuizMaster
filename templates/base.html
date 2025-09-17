@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Test Your Knowledge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .errorlist {
+            color: #e53e3e;
+            margin-top: 0.5rem;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .errorlist li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+    </style>
+    <style>
+      
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col">
+    <!-- Mobile menu backdrop -->
+    <div id="mobileMenuBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <!-- Logo -->
+                <a href="{% url 'index' %}" class="text-2xl font-bold flex items-center space-x-2">
+                    <i class="fas fa-brain text-amber-300"></i>
+                    <span class="hidden sm:inline">QuizMaster</span>
+                    <span class="sm:hidden">QM</span>
+                </a>
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{% url 'index' %}" class="hover:text-amber-200 transition-all flex items-center space-x-1">
+                        <i class="fas fa-home text-sm"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="{% url 'about' %}" class="hover:text-amber-200 transition-all flex items-center space-x-1">
+                        <i class="fas fa-info-circle text-sm"></i>
+                        <span>About</span>
+                    </a>
+                    <a href="{% url 'contact' %}" class="hover:text-amber-200 transition-all flex items-center space-x-1">
+                        <i class="fas fa-envelope text-sm"></i>
+                        <span>Contact</span>
+                    </a>
+                    
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'progress' %}" class="hover:text-amber-200 transition-all flex items-center space-x-1">
+                        <i class="fas fa-chart-line text-sm"></i>
+                        <span>Progress</span>
+                    </a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}" class="hover:text-amber-200 transition-all flex items-center space-x-1">
+                        <i class="fas fa-cog text-sm"></i>
+                        <span>Admin</span>
+                    </a>
+                    {% endif %}
+                    {% endif %}
+
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-primary-500 transition-all">
+                        <i class="fas fa-moon" id="darkIcon"></i>
+                        <i class="fas fa-sun hidden" id="lightIcon"></i>
+                    </button>
+
+                    {% if user.is_authenticated %}
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm">Hello, {{ user.username }}</span>
+                        <a href="{% url 'logout' %}" class="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded-lg font-semibold transition-all flex items-center space-x-2">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="flex items-center space-x-3">
+                        <a href="{% url 'login' %}" class="hover:text-amber-200 transition-all">Login</a>
+                        <a href="{% url 'register' %}" class="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded-lg font-semibold transition-all">Register</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center space-x-4">
+                    <button id="darkModeToggleMobile" class="p-2 rounded-full hover:bg-primary-500 transition-all">
+                        <i class="fas fa-moon" id="darkIconMobile"></i>
+                        <i class="fas fa-sun hidden" id="lightIconMobile"></i>
+                    </button>
+                    <button id="mobileMenuButton" class="p-2 rounded-full hover:bg-primary-500 transition-all">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 right-0 bg-primary-700 shadow-lg py-4 transform origin-top transition-all duration-300 scale-y-0 opacity-0">
+            <div class="container mx-auto px-4 space-y-4">
+                <a href="{% url 'index' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                    <i class="fas fa-home w-6 text-center"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'about' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                    <i class="fas fa-info-circle w-6 text-center"></i>
+                    <span>About</span>
+                </a>
+                <a href="{% url 'contact' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                    <i class="fas fa-envelope w-6 text-center"></i>
+                    <span>Contact</span>
+                </a>
+                
+                {% if user.is_authenticated %}
+                <a href="{% url 'progress' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                    <i class="fas fa-chart-line w-6 text-center"></i>
+                    <span>Progress</span>
+                </a>
+                {% if user.is_staff %}
+                <a href="{% url 'admin_dashboard' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                    <i class="fas fa-cog w-6 text-center"></i>
+                    <span>Admin</span>
+                </a>
+                {% endif %}
+                <div class="pt-4 border-t border-primary-500">
+                    <span class="block py-2 text-amber-200">Hello, {{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                        <i class="fas fa-sign-out-alt w-6 text-center"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+                {% else %}
+                <div class="pt-4 border-t border-primary-500 space-y-3">
+                    <a href="{% url 'login' %}" class="block py-2 hover:text-amber-200 transition-all flex items-center space-x-3">
+                        <i class="fas fa-sign-in-alt w-6 text-center"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="{% url 'register' %}" class="block bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded-lg font-semibold transition-all text-center">
+                        Register Now
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-brain text-amber-300 text-2xl"></i>
+                        <span class="text-xl font-bold">QuizMaster</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Test your knowledge with our comprehensive quizzes and track your progress with AI-powered recommendations.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-amber-300 transition-all">
+                            <i class="fab fa-facebook-f text-lg"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-amber-300 transition-all">
+                            <i class="fab fa-twitter text-lg"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-amber-300 transition-all">
+                            <i class="fab fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-amber-300 transition-all">
+                            <i class="fab fa-linkedin-in text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'index' %}" class="text-gray-300 hover:text-amber-300 transition-all">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="text-gray-300 hover:text-amber-300 transition-all">About Us</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-300 hover:text-amber-300 transition-all">Contact</a></li>
+                        <li><a href="{% url 'leaderboard' %}" class="text-gray-300 hover:text-amber-300 transition-all">Leaderboard</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quiz Categories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'custom_quiz' %}?categories=1" class="text-gray-300 hover:text-amber-300 transition-all">General Knowledge</a></li>
+                        <li><a href="{% url 'custom_quiz' %}?categories=2" class="text-gray-300 hover:text-amber-300 transition-all">Science</a></li>
+                        <li><a href="{% url 'custom_quiz' %}?categories=3" class="text-gray-300 hover:text-amber-300 transition-all">History</a></li>
+                        <li><a href="{% url 'custom_quiz' %}?categories=4" class="text-gray-300 hover:text-amber-300 transition-all">Geography</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 QuizMaster. All rights reserved. | <a href="{% url 'privacy_policy' %}" class="hover:text-amber-300 transition-all">Privacy Policy</a> | <a href="{% url 'terms_of_service' %}" class="hover:text-amber-300 transition-all">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+        <div class="back-to-top hidden  ">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition duration-200">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+
+    <script>
+        // Dark mode functionality
+        function setupDarkMode(toggleBtn, darkIcon, lightIcon) {
+            toggleBtn.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    darkIcon.classList.remove('hidden');
+                    lightIcon.classList.add('hidden');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    darkIcon.classList.add('hidden');
+                    lightIcon.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Initialize dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+        const darkIconMobile = document.getElementById('darkIconMobile');
+        const lightIconMobile = document.getElementById('lightIconMobile');
+
+        if (darkModeToggle) setupDarkMode(darkModeToggle, darkIcon, lightIcon);
+        if (darkModeToggleMobile) setupDarkMode(darkModeToggleMobile, darkIconMobile, lightIconMobile);
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            if (darkIcon) darkIcon.classList.add('hidden');
+            if (lightIcon) lightIcon.classList.remove('hidden');
+            if (darkIconMobile) darkIconMobile.classList.add('hidden');
+            if (lightIconMobile) lightIconMobile.classList.remove('hidden');
+        }
+
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+        if (mobileMenuButton && mobileMenu && mobileMenuBackdrop) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuBackdrop.classList.toggle('hidden');
+                
+                if (!mobileMenu.classList.contains('hidden')) {
+                    setTimeout(() => {
+                        mobileMenu.classList.remove('scale-y-0', 'opacity-0');
+                        mobileMenu.classList.add('scale-y-100', 'opacity-100');
+                    }, 10);
+                } else {
+                    mobileMenu.classList.add('scale-y-0', 'opacity-0');
+                    mobileMenu.classList.remove('scale-y-100', 'opacity-100');
+                }
+            });
+
+            mobileMenuBackdrop.addEventListener('click', () => {
+                mobileMenu.classList.add('scale-y-0', 'opacity-0');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuBackdrop.classList.add('hidden');
+                }, 300);
+            });
+        }
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('scale-y-0', 'opacity-0');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuBackdrop.classList.add('hidden');
+                }, 300);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+           
+            // Smooth scrolling for table of contents links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Show/hide back to top button based on scroll position
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('hidden');
+                } else {
+                    backToTopButton.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

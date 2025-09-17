@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Result Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
+            <!-- Header Section -->
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-center">
+                <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-trophy text-4xl text-white"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">Quiz Results</h1>
+                <p class="text-blue-100">Your performance summary</p>
+            </div>
+            
+            <!-- Score Section -->
+            <div class="p-8 text-center">
+                <!-- Circular Progress -->
+                <div class="relative w-40 h-40 mx-auto mb-6">
+                    <svg class="w-full h-full" viewBox="0 0 100 100">
+                        <!-- Background Circle -->
+                        <circle class="text-gray-200 dark:text-gray-700 stroke-current" stroke-width="10" cx="50" cy="50" r="40" fill="transparent"></circle>
+                        <!-- Progress Circle - Simplified without complex calculation -->
+                        <circle class="text-blue-500 stroke-current" stroke-width="10" stroke-linecap="round" cx="50" cy="50" r="40" fill="transparent"
+                                stroke-dasharray="251.2"
+                                stroke-dashoffset="calc(251.2 - (251.2 * {{ result.percentage }}) / 100)">
+                        </circle>
+                    </svg>
+                    <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
+                        <span class="text-3xl font-bold text-blue-600 dark:text-blue-400">{{ result.percentage }}%</span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Score</span>
+                    </div>
+                </div>
+                
+                <!-- Score Details -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <i class="fas fa-check-circle text-green-500 text-2xl mb-2"></i>
+                        <h3 class="font-semibold text-gray-700 dark:text-gray-300">Correct</h3>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ result.score }}</p>
+                    </div>
+                    <div class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <i class="fas fa-list-alt text-blue-500 text-2xl mb-2"></i>
+                        <h3 class="font-semibold text-gray-700 dark:text-gray-300">Total Questions</h3>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ result.total_questions }}</p>
+                    </div>
+                </div>
+                
+                <!-- Time Taken -->
+                <div class="flex items-center justify-center bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-8">
+                    <i class="far fa-clock text-indigo-500 text-xl mr-3"></i>
+                    <span class="text-gray-700 dark:text-gray-300">Time taken: </span>
+                    <span class="font-semibold ml-2 text-gray-900 dark:text-white">{{ result.time_taken }} seconds</span>
+                </div>
+                
+                <!-- AI Recommendation -->
+                <div class="bg-indigo-50 dark:bg-indigo-900 dark:bg-opacity-20 p-6 rounded-lg mb-8 border-l-4 border-indigo-500">
+                    <div class="flex items-start">
+                        <div class="bg-indigo-100 dark:bg-indigo-800 p-3 rounded-full mr-4">
+                            <i class="fas fa-robot text-indigo-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-indigo-800 dark:text-indigo-300 mb-2">AI Recommendation</h2>
+                            <p class="text-gray-700 dark:text-gray-300">{{ effort_recommendation }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="{% url 'quiz' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg">
+                        <i class="fas fa-redo-alt mr-2"></i> Try Again
+                    </a>
+                    <a href="{% url 'index' %}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Stats Section -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md text-center">
+                <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-brain text-green-500"></i>
+                </div>
+                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Knowledge Level</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                    {% if result.percentage >= 80 %}Expert{% elif result.percentage >= 60 %}Advanced{% elif result.percentage >= 40 %}Intermediate{% else %}Beginner{% endif %}
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md text-center">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-bolt text-blue-500"></i>
+                </div>
+                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Speed</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                    {% widthratio result.time_taken result.total_questions 1 %} sec/question
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md text-center">
+                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-chart-line text-purple-500"></i>
+                </div>
+                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Accuracy</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ result.percentage }}%</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes scaleIn {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .animate-scale-in {
+        animation: scaleIn 0.5s ease-out forwards;
+    }
+    
+    /* Progress circle animation */
+    circle {
+        transition: stroke-dashoffset 1s ease-in-out;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate elements on page load
+        const elements = document.querySelectorAll('.bg-white, .bg-gradient-to-r');
+        elements.forEach((el, index) => {
+            el.classList.add('animate-fade-in');
+            el.style.animationDelay = `${index * 0.1}s`;
+        });
+        
+        // Animate the progress circle
+        const progressCircle = document.querySelector('circle');
+        if (progressCircle) {
+            setTimeout(() => {
+                progressCircle.style.transition = 'stroke-dashoffset 1.5s ease-in-out';
+            }, 500);
+        }
+    });
+</script>
+{% endblock %}

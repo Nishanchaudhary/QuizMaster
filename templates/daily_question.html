@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Header Section -->
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 mb-8 text-white text-center">
+            <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-calendar-day text-3xl text-white"></i>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">Question of the Day</h1>
+            <p class="text-blue-100">Test your knowledge with today's special question!</p>
+            <div class="mt-4 inline-flex items-center bg-white bg-opacity-20 px-4 py-2 rounded-full">
+                <i class="fas fa-gift mr-2"></i>
+                <span>Earn bonus points for daily participation</span>
+            </div>
+        </div>
+        
+        {% if already_answered %}
+        <!-- Already Answered State -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center">
+            <div class="w-24 h-24 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check-circle text-4xl text-green-500"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">You've already answered today's question!</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Great job! Come back tomorrow for a new challenge.</p>
+            
+            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg mb-6">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-fire text-yellow-500 text-xl mr-2"></i>
+                    <span class="font-semibold text-green-800 dark:text-green-200">Current streak: 3 days</span>
+                </div>
+            </div>
+            
+            <a href="{% url 'quiz' %}" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 inline-flex items-center shadow-md hover:shadow-lg">
+                <i class="fas fa-play mr-2"></i> Take a Full Quiz Instead
+            </a>
+            
+            <div class="mt-6">
+                <a href="{% url 'progress' %}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 inline-flex items-center">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    View your progress
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <!-- Question Form -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+            <!-- Question Header -->
+            <div class="bg-gradient-to-r from-blue-400 to-indigo-500 p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-brain text-white text-xl mr-2"></i>
+                        <span class="text-white font-semibold">Daily Challenge</span>
+                    </div>
+                    <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full">
+                        <span class="text-white text-sm">+5 points</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question Content -->
+            <div class="p-6">
+                <div class="flex items-start mb-6">
+                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-question-circle text-blue-600 dark:text-blue-300"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">{{ question.question_text }}</h3>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="space-y-4 mb-6">
+                        <div class="option-item">
+                            <input type="radio" id="option1" name="answer" value="1" class="hidden">
+                            <label for="option1" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                                <span class="flex items-center justify-center w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full mr-4">
+                                    <span class="font-bold text-gray-600 dark:text-gray-300">A</span>
+                                </span>
+                                <span class="text-gray-700 dark:text-gray-300">{{ question.option1 }}</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option-item">
+                            <input type="radio" id="option2" name="answer" value="2" class="hidden">
+                            <label for="option2" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                                <span class="flex items-center justify-center w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full mr-4">
+                                    <span class="font-bold text-gray-600 dark:text-gray-300">B</span>
+                                </span>
+                                <span class="text-gray-700 dark:text-gray-300">{{ question.option2 }}</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option-item">
+                            <input type="radio" id="option3" name="answer" value="3" class="hidden">
+                            <label for="option3" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                                <span class="flex items-center justify-center w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full mr-4">
+                                    <span class="font-bold text-gray-600 dark:text-gray-300">C</span>
+                                </span>
+                                <span class="text-gray-700 dark:text-gray-300">{{ question.option3 }}</span>
+                            </label>
+                        </div>
+                        
+                        <div class="option-item">
+                            <input type="radio" id="option4" name="answer" value="4" class="hidden">
+                            <label for="option4" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                                <span class="flex items-center justify-center w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full mr-4">
+                                    <span class="font-bold text-gray-600 dark:text-gray-300">D</span>
+                                </span>
+                                <span class="text-gray-700 dark:text-gray-300">{{ question.option4 }}</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 flex items-center justify-center mx-auto shadow-md hover:shadow-lg">
+                            <i class="fas fa-paper-plane mr-2"></i> Submit Answer
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Footer Info -->
+            <div class="bg-gray-50 dark:bg-gray-700 p-4 text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Answer today to maintain your streak and earn bonus points!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
+            <div class="flex items-center">
+                <i class="fas fa-trophy text-yellow-500 text-xl mr-3"></i>
+                <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-white">Daily Challenge Benefits</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Complete daily questions to build your streak and earn special achievements</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .option-item input[type="radio"]:checked + label {
+        border-color: #3b82f6;
+        background-color: #dbeafe;
+    }
+    
+    .dark .option-item input[type="radio"]:checked + label {
+        border-color: #60a5fa;
+        background-color: rgba(37, 99, 235, 0.2);
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate elements on page load
+        const elements = document.querySelectorAll('.bg-white, .bg-gradient-to-r');
+        elements.forEach((el, index) => {
+            el.classList.add('animate-fade-in');
+            el.style.animationDelay = `${index * 0.1}s`;
+        });
+        
+        // Add interaction to radio options
+        const optionItems = document.querySelectorAll('.option-item');
+        optionItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // Remove selected style from all options
+                optionItems.forEach(opt => {
+                    opt.querySelector('label').classList.remove('border-blue-400', 'bg-blue-100', 'dark:bg-blue-900/30');
+                });
+                
+                // Add selected style to clicked option
+                this.querySelector('label').classList.add('border-blue-400', 'bg-blue-100', 'dark:bg-blue-900/30');
+            });
+        });
+    });
+</script>
+{% endblock %}

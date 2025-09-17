@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center py-8 px-4">
+    <div class="max-w-md w-full">
+        <!-- Login Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
+            <!-- Header Section -->
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-center">
+                <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-lock text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white">Welcome Back</h2>
+                <p class="text-blue-100 mt-2">Sign in to continue your learning journey</p>
+            </div>
+
+            <!-- Error Message -->
+            {% if error %}
+            <div class="mx-6 mt-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-start">
+                <i class="fas fa-exclamation-circle text-red-500 text-lg mt-0.5 mr-3"></i>
+                <div>
+                    <h3 class="font-semibold text-red-800 dark:text-red-200">Login Error</h3>
+                    <p class="text-red-600 dark:text-red-300 text-sm">{{ error }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form class="px-8 py-6" method="POST">
+                {% csrf_token %}
+                
+                <!-- Username Field -->
+                <div class="mb-6">
+                    <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                        <i class="fas fa-user text-gray-500 mr-2"></i>
+                        Username
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <input id="username" name="username" type="text" required 
+                               class="pl-10 appearance-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition duration-200"
+                               placeholder="Enter your username">
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                        <i class="fas fa-lock text-gray-500 mr-2"></i>
+                        Password
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input id="password" name="password" type="password" required 
+                               class="pl-10 appearance-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition duration-200"
+                               placeholder="Enter your password">
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" 
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <a href="{% url 'password_reset' %}" class="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition duration-200">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 shadow-md hover:shadow-lg">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <i class="fas fa-sign-in-alt text-blue-200 group-hover:text-white transition duration-200"></i>
+                    </span>
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="px-8 pb-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                            Or continue with
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="bg-gray-50 dark:bg-gray-700 px-8 py-4 rounded-b-2xl text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Don't have an account?
+                    <a href="{% url 'register' %}" class="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition duration-200">
+                        Sign up now
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="mt-6 text-center">
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+                <i class="fas fa-shield-alt mr-1"></i>
+                Your data is securely encrypted and protected
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate the login card on page load
+        const loginCard = document.querySelector('.bg-white');
+        if (loginCard) {
+            loginCard.classList.add('animate-fade-in');
+        }
+        
+        // Add focus styles to form inputs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-blue-500', 'ring-opacity-50');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-blue-500', 'ring-opacity-50');
+            });
+        });
+    });
+</script>
+{% endblock %}

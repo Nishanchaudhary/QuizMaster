@@ -1,0 +1,327 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-xl font-bold text-blue-600 dark:text-blue-400">
+                        <i class="fas fa-brain mr-2"></i>QuizMaster
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Terms of Service Content -->
+    <div class="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <!-- Header -->
+        <div class="text-center mb-8 sm:mb-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
+                <i class="fas fa-file-contract text-2xl text-blue-600 dark:text-blue-300"></i>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-2">Terms of Service</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300">Last updated: September 16, 2025</p>
+        </div>
+
+        <!-- Introduction -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8 section-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                    <i class="fas fa-info-circle text-blue-600 dark:text-blue-300"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Introduction</h2>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300">
+                Welcome to QuizMaster. These Terms of Service govern your use of our website and services. 
+                By accessing or using QuizMaster, you agree to be bound by these Terms and our Privacy Policy.
+                If you disagree with any part of the terms, you may not access our service.
+            </p>
+        </div>
+
+        <!-- Content Container -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
+            <!-- Table of Contents -->
+            <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
+                <h3 class="text-lg font-medium text-gray-800 dark:text-white flex items-center">
+                    <i class="fas fa-list-ol mr-2 text-blue-500"></i>Table of Contents
+                </h3>
+                <ol class="list-decimal list-inside mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                    <li><a href="#accounts" class="text-blue-600 dark:text-blue-400 hover:underline">Accounts</a></li>
+                    <li><a href="#services" class="text-blue-600 dark:text-blue-400 hover:underline">Services</a></li>
+                    <li><a href="#user-content" class="text-blue-600 dark:text-blue-400 hover:underline">User Content</a></li>
+                    <li><a href="#prohibited" class="text-blue-600 dark:text-blue-400 hover:underline">Prohibited Uses</a></li>
+                    <li><a href="#intellectual-property" class="text-blue-600 dark:text-blue-400 hover:underline">Intellectual Property</a></li>
+                    <li><a href="#termination" class="text-blue-600 dark:text-blue-400 hover:underline">Termination</a></li>
+                    <li><a href="#disclaimer" class="text-blue-600 dark:text-blue-400 hover:underline">Disclaimer</a></li>
+                    <li><a href="#limitation" class="text-blue-600 dark:text-blue-400 hover:underline">Limitation of Liability</a></li>
+                    <li><a href="#governing-law" class="text-blue-600 dark:text-blue-400 hover:underline">Governing Law</a></li>
+                    <li><a href="#changes" class="text-blue-600 dark:text-blue-400 hover:underline">Changes to Terms</a></li>
+                    <li><a href="#contact" class="text-blue-600 dark:text-blue-400 hover:underline">Contact Us</a></li>
+                </ol>
+            </div>
+
+            <!-- Terms Sections -->
+            <div class="p-6 space-y-8">
+                <!-- Accounts -->
+                <section id="accounts" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-user-circle text-blue-600 dark:text-blue-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">1. Accounts</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>When you create an account with us, you must provide us with information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our service.</p>
+                        
+                        <p>You are responsible for safeguarding the password that you use to access the service and for any activities or actions under your password, whether your password is with our service or a third-party service.</p>
+                        
+                        <p>You agree not to disclose your password to any third party. You must notify us immediately upon becoming aware of any breach of security or unauthorized use of your account.</p>
+                    </div>
+                </section>
+
+                <!-- Services -->
+                <section id="services" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 dark:bg-green-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-graduation-cap text-green-600 dark:text-green-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">2. Services</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>QuizMaster provides an online platform for educational quizzes and learning activities. Our services include but are not limited to:</p>
+                        
+                        <ul class="list-disc list-inside ml-4 space-y-2">
+                            <li>Interactive quizzes across various subjects and difficulty levels</li>
+                            <li>Progress tracking and performance analytics</li>
+                            <li>Personalized learning recommendations</li>
+                            <li>Leaderboards and achievement systems</li>
+                            <li>Custom quiz creation tools</li>
+                        </ul>
+                        
+                        <p>We reserve the right to modify or discontinue, temporarily or permanently, the service (or any part thereof) with or without notice.</p>
+                    </div>
+                </section>
+
+                <!-- User Content -->
+                <section id="user-content" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 dark:bg-purple-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-edit text-purple-600 dark:text-purple-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">3. User Content</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>Our service allows you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post to the service, including its legality, reliability, and appropriateness.</p>
+                        
+                        <p>By posting Content to the service, you grant us the right and license to use, modify, publicly perform, publicly display, reproduce, and distribute such Content on and through the service. You retain any and all of your rights to any Content you submit, post or display on or through the service.</p>
+                        
+                        <p>You represent and warrant that: (i) the Content is yours (you own it) or you have the right to use it and grant us the rights and license as provided in these Terms, and (ii) the posting of your Content on or through the service does not violate the privacy rights, publicity rights, copyrights, contract rights or any other rights of any person.</p>
+                    </div>
+                </section>
+
+                <!-- Prohibited Uses -->
+                <section id="prohibited" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-ban text-red-600 dark:text-red-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">4. Prohibited Uses</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>You may use the service only for lawful purposes and in accordance with these Terms. You agree not to use the service:</p>
+                        
+                        <ul class="list-disc list-inside ml-4 space-y-2">
+                            <li>In any way that violates any applicable federal, state, local, or international law or regulation</li>
+                            <li>For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way</li>
+                            <li>To transmit, or procure the sending of, any advertising or promotional material without our prior written consent</li>
+                            <li>To impersonate or attempt to impersonate the company, a company employee, another user, or any other person or entity</li>
+                            <li>To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the service</li>
+                            <li>To use any robot, spider, or other automatic device, process, or means to access the service for any purpose</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Intellectual Property -->
+                <section id="intellectual-property" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-copyright text-yellow-600 dark:text-yellow-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">5. Intellectual Property</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>The service and its original content, features, and functionality are and will remain the exclusive property of QuizMaster and its licensors. The service is protected by copyright, trademark, and other laws of both the United States and foreign countries.</p>
+                        
+                        <p>Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of QuizMaster.</p>
+                        
+                        <p>You may not duplicate, copy, or reuse any portion of the HTML/CSS, Javascript, or visual design elements without express written permission from QuizMaster.</p>
+                    </div>
+                </section>
+
+                <!-- Termination -->
+                <section id="termination" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-100 dark:bg-orange-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-power-off text-orange-600 dark:text-orange-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">6. Termination</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
+                        
+                        <p>Upon termination, your right to use the service will immediately cease. If you wish to terminate your account, you may simply discontinue using the service.</p>
+                        
+                        <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+                    </div>
+                </section>
+
+                <!-- Disclaimer -->
+                <section id="disclaimer" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded-full mr-3">
+                            <i class="fas fa-exclamation-triangle text-gray-600 dark:text-gray-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">7. Disclaimer</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>Your use of the service is at your sole risk. The service is provided on an "AS IS" and "AS AVAILABLE" basis. The service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
+                        
+                        <p>QuizMaster, its subsidiaries, affiliates, and its licensors do not warrant that a) the service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the service is free of viruses or other harmful components; or d) the results of using the service will meet your requirements.</p>
+                    </div>
+                </section>
+
+                <!-- Limitation of Liability -->
+                <section id="limitation" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-pink-100 dark:bg-pink-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-balance-scale text-pink-600 dark:text-pink-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">8. Limitation of Liability</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>In no event shall QuizMaster, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:</p>
+                        
+                        <ul class="list-disc list-inside ml-4 space-y-2">
+                            <li>Your access to or use of or inability to access or use the service</li>
+                            <li>Any conduct or content of any third party on the service</li>
+                            <li>Any content obtained from the service</li>
+                            <li>Unauthorized access, use or alteration of your transmissions or content</li>
+                        </ul>
+                        
+                        <p>Whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage.</p>
+                    </div>
+                </section>
+
+                <!-- Governing Law -->
+                <section id="governing-law" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-gavel text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">9. Governing Law</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>These Terms shall be governed and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.</p>
+                        
+                        <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.</p>
+                        
+                        <p>These Terms constitute the entire agreement between us regarding our service, and supersede and replace any prior agreements we might have had between us regarding the service.</p>
+                    </div>
+                </section>
+
+                <!-- Changes to Terms -->
+                <section id="changes" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-teal-100 dark:bg-teal-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-sync-alt text-teal-600 dark:text-teal-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">10. Changes to Terms</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+                        
+                        <p>By continuing to access or use our service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the service.</p>
+                    </div>
+                </section>
+
+                <!-- Contact Us -->
+                <section id="contact" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-envelope text-blue-600 dark:text-blue-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">11. Contact Us</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>If you have any questions about these Terms, please contact us:</p>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mt-3">
+                            <p class="flex items-center">
+                                <i class="fas fa-envelope text-blue-500 mr-2"></i>
+                                <span>Email: legal@quizmaster.com</span>
+                            </p>
+                            <p class="flex items-center mt-2">
+                                <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                                <span>Address: Ghodaghodi-2, Sudur Paschim, Nepal</span>
+                            </p>
+                            <p class="flex items-center mt-2">
+                                <i class="fas fa-phone text-blue-500 mr-2"></i>
+                                <span>Phone: +977 9812345678</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Acceptance Section -->
+            <div class="bg-blue-50 dark:bg-blue-900/20 px-6 py-4 border-t border-gray-200 dark:border-gray-600">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-blue-500 text-xl mr-3"></i>
+                    <p class="text-blue-800 dark:text-blue-200">
+                        By using our website, you acknowledge that you have read and understood these Terms of Service 
+                        and agree to be bound by them.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate sections on page load
+            const sections = document.querySelectorAll('.section-card');
+            sections.forEach((section, index) => {
+                section.classList.add('animate-fade-in');
+                section.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+{% endblock %}

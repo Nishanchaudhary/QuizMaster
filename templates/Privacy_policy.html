@@ -1,0 +1,470 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-xl font-bold text-blue-600 dark:text-blue-400">
+                        <i class="fas fa-brain mr-2"></i>QuizMaster
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <a href="{% url 'index' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Privacy Policy Content -->
+    <div class="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <!-- Header -->
+        <div class="text-center mb-8 sm:mb-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
+                <i class="fas fa-shield-alt text-2xl text-blue-600 dark:text-blue-300"></i>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-2">Privacy Policy</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300">Last updated: September 16, 2025</p>
+        </div>
+
+        <!-- Introduction -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8 section-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                    <i class="fas fa-info-circle text-blue-600 dark:text-blue-300"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Introduction</h2>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300">
+                At QuizMaster, we take your privacy seriously. This Privacy Policy describes how we collect, use, 
+                and share your personal information when you use our website and services. By accessing or using QuizMaster, 
+                you agree to the terms of this Privacy Policy.
+            </p>
+        </div>
+
+        <!-- Content Container -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
+            <!-- Table of Contents -->
+            <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
+                <h3 class="text-lg font-medium text-gray-800 dark:text-white flex items-center">
+                    <i class="fas fa-list-ol mr-2 text-blue-500"></i>Table of Contents
+                </h3>
+                <ol class="list-decimal list-inside mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                    <li><a href="#information-collection" class="text-blue-600 dark:text-blue-400 hover:underline">Information We Collect</a></li>
+                    <li><a href="#information-use" class="text-blue-600 dark:text-blue-400 hover:underline">How We Use Your Information</a></li>
+                    <li><a href="#information-sharing" class="text-blue-600 dark:text-blue-400 hover:underline">Information Sharing</a></li>
+                    <li><a href="#data-security" class="text-blue-600 dark:text-blue-400 hover:underline">Data Security</a></li>
+                    <li><a href="#data-retention" class="text-blue-600 dark:text-blue-400 hover:underline">Data Retention</a></li>
+                    <li><a href="#cookies" class="text-blue-600 dark:text-blue-400 hover:underline">Cookies & Tracking</a></li>
+                    <li><a href="#your-rights" class="text-blue-600 dark:text-blue-400 hover:underline">Your Rights</a></li>
+                    <li><a href="#children-privacy" class="text-blue-600 dark:text-blue-400 hover:underline">Children's Privacy</a></li>
+                    <li><a href="#changes" class="text-blue-600 dark:text-blue-400 hover:underline">Changes to Policy</a></li>
+                    <li><a href="#contact" class="text-blue-600 dark:text-blue-400 hover:underline">Contact Us</a></li>
+                </ol>
+            </div>
+
+            <!-- Policy Sections -->
+            <div class="p-6 space-y-8">
+                <!-- Information Collection -->
+                <section id="information-collection" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-database text-blue-600 dark:text-blue-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">1. Information We Collect</h2>
+                    </div>
+                    <div class="ml-9 space-y-4">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                <i class="fas fa-user-circle text-blue-500 mr-2"></i>
+                                Personal Information
+                            </h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2 text-gray-600 dark:text-gray-300">
+                                <li>Account information (username, email address, password)</li>
+                                <li>Profile information (name, profile picture, bio)</li>
+                                <li>Contact information (email address, communication preferences)</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                                <i class="fas fa-chart-line text-green-500 mr-2"></i>
+                                Usage Information
+                            </h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2 text-gray-600 dark:text-gray-300">
+                                <li>Quiz results and performance data</li>
+                                <li>Progress tracking and learning patterns</li>
+                                <li>Device information (browser type, IP address, operating system)</li>
+                                <li>Log data (pages visited, time spent, click patterns)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Information Use -->
+                <section id="information-use" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 dark:bg-green-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-cogs text-green-600 dark:text-green-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">2. How We Use Your Information</h2>
+                    </div>
+                    <div class="ml-9 space-y-3">
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Provide Services:</span> To operate, maintain, and improve our services
+                            </p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Personalize Experience:</span> To customize learning content and recommendations
+                            </p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Communicate:</span> To send service-related notices and updates
+                            </p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Analytics:</span> To analyze trends and user behavior to improve our services
+                            </p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Security:</span> To protect against fraudulent or unauthorized activity
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Information Sharing -->
+                <section id="information-sharing" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 dark:bg-purple-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-share-alt text-purple-600 dark:text-purple-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">3. Information Sharing</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>
+                            We do not sell your personal information to third parties. We may share your information in the following circumstances:
+                        </p>
+                        <ul class="list-disc list-inside ml-4 space-y-2">
+                            <li><strong>Service Providers:</strong> With vendors who provide services on our behalf</li>
+                            <li><strong>Legal Requirements:</strong> When required by law, regulation, or legal process</li>
+                            <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
+                            <li><strong>Protection of Rights:</strong> To protect the rights, property, or safety of QuizMaster or others</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Data Security -->
+                <section id="data-security" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-100 dark:bg-red-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-lock text-red-600 dark:text-red-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">4. Data Security</h2>
+                    </div>
+                    <div class="ml-9 space-y-3 text-gray-600 dark:text-gray-300">
+                        <p>
+                            We implement appropriate technical and organizational security measures to protect your personal information, including:
+                        </p>
+                        <ul class="list-disc list-inside ml-4 space-y-2">
+                            <li>Encryption of data in transit and at rest</li>
+                            <li>Regular security assessments and testing</li>
+                            <li>Access controls and authentication mechanisms</li>
+                            <li>Secure server infrastructure and network protection</li>
+                        </ul>
+                        <p>
+                            While we strive to protect your information, no security system is impenetrable, and we cannot guarantee the security of our systems 100%.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Data Retention -->
+                <section id="data-retention" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-history text-yellow-600 dark:text-yellow-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">5. Data Retention</h2>
+                    </div>
+                    <div class="ml-9 space-y-3 text-gray-600 dark:text-gray-300">
+                        <p>
+                            We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.
+                        </p>
+                        <p>
+                            When we no longer need to use your information, we will remove it from our systems and records or anonymize it so that it can no longer be associated with you.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Cookies -->
+                <section id="cookies" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-cookie text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">6. Cookies & Tracking</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>
+                            We use cookies and similar tracking technologies to track activity on our service and hold certain information. Types of cookies we use:
+                        </p>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        Essential Cookies
+                                    </h4>
+                                    <p class="text-sm">Required for basic site functionality</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+                                        <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
+                                        Analytics Cookies
+                                    </h4>
+                                    <p class="text-sm">Help us understand how visitors interact with our site</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+                                        <i class="fas fa-user-cog text-purple-500 mr-2"></i>
+                                        Preference Cookies
+                                    </h4>
+                                    <p class="text-sm">Remember your settings and preferences</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+                                        <i class="fas fa-ad text-yellow-500 mr-2"></i>
+                                        Marketing Cookies
+                                    </h4>
+                                    <p class="text-sm">Used to track visitors across websites</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>
+                            You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our service.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Your Rights -->
+                <section id="your-rights" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-teal-100 dark:bg-teal-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-user-shield text-teal-600 dark:text-teal-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">7. Your Rights</h2>
+                    </div>
+                    <div class="ml-9 space-y-4 text-gray-600 dark:text-gray-300">
+                        <p>
+                            Depending on your location, you may have the following rights regarding your personal information:
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-eye text-blue-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Right to Access</h4>
+                                    <p class="text-sm">Request copies of your personal data</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-edit text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Right to Rectification</h4>
+                                    <p class="text-sm">Request correction of inaccurate data</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-trash-alt text-red-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Right to Erasure</h4>
+                                    <p class="text-sm">Request deletion of your personal data</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-ban text-yellow-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Right to Restrict Processing</h4>
+                                    <p class="text-sm">Request restriction of processing your data</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-file-export text-purple-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Right to Data Portability</h4>
+                                    <p class="text-sm">Request transfer of your data to another organization</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-hand-paper text-orange-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Right to Object</h4>
+                                    <p class="text-sm">Object to processing of your personal data</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>
+                            To exercise any of these rights, please contact us using the information provided in the "Contact Us" section.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Children's Privacy -->
+                <section id="children-privacy" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-pink-100 dark:bg-pink-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-child text-pink-600 dark:text-pink-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">8. Children's Privacy</h2>
+                    </div>
+                    <div class="ml-9 space-y-3 text-gray-600 dark:text-gray-300">
+                        <p>
+                            Our service is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13.
+                        </p>
+                        <p>
+                            If you are a parent or guardian and believe that your child has provided us with personal information, please contact us, and we will take steps to remove that information from our servers.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Changes to Policy -->
+                <section id="changes" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-100 dark:bg-orange-900 p-2 rounded-full mr-3">
+                            <i class="fas fa-exclamation-circle text-orange-600 dark:text-orange-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">9. Changes to This Policy</h2>
+                    </div>
+                    <div class="ml-9 space-y-3 text-gray-600 dark:text-gray-300">
+                        <p>
+                            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+                        </p>
+                        <p>
+                            You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Contact Us -->
+                <section id="contact" class="section-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded-full mr-3">
+                            <i class="fas fa-envelope text-gray-600 dark:text-gray-300"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">10. Contact Us</h2>
+                    </div>
+                    <div class="ml-9 space-y-3 text-gray-600 dark:text-gray-300">
+                        <p>
+                            If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
+                        </p>
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mt-3">
+                            <p class="flex items-center">
+                                <i class="fas fa-envelope text-blue-500 mr-2"></i>
+                                <span>Email: privacy@quizmaster.com</span>
+                            </p>
+                            <p class="flex items-center mt-2">
+                                <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                                <span>Address: Ghodaghodi-2, Sudur Paschim, Nepal</span>
+                            </p>
+                            <p class="flex items-center mt-2">
+                                <i class="fas fa-phone text-blue-500 mr-2"></i>
+                                <span>Phone: +977 9812345678</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Acceptance Section -->
+            <div class="bg-blue-50 dark:bg-blue-900/20 px-6 py-4 border-t border-gray-200 dark:border-gray-600">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-blue-500 text-xl mr-3"></i>
+                    <p class="text-blue-800 dark:text-blue-200">
+                        By using our website, you acknowledge that you have read and understood this Privacy Policy 
+                        and consent to the collection, use, and sharing of your information as described herein.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Top Button -->
+        <div class="back-to-top">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition duration-200">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+    </div>
+
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate sections on page load
+            const sections = document.querySelectorAll('.section-card');
+            sections.forEach((section, index) => {
+                section.classList.add('animate-fade-in');
+                section.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Smooth scrolling for table of contents links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Show/hide back to top button based on scroll position
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('hidden');
+                } else {
+                    backToTopButton.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+{% endblock %}
