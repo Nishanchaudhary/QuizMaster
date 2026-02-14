@@ -29,4 +29,10 @@ QuizMaster is a comprehensive quiz application built with Django that offers var
 - Weak Category Identification: System identifies areas needing improvement
 - Effort Recommendations: AI-driven suggestions for optimal study patterns
 
+For any inquiries, feedback, or suggestions, feel free to reach out:
+
+- **Name**: Nishan Kumar Chaudhary
+- **Email**: chaudharynishan314@gmail.com 
+- **GitHub**: [Nishanchaudhary](https://github.com/Nishanchaudhary)
+
 [QuizMaster_Live link](https://nishanchy.pythonanywhere.com/)
